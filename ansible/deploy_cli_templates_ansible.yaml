@@ -1,0 +1,72 @@
+---
+  - name: Ansible CLI Templates
+    hosts: localhost
+    connection: local
+    gather_facts: false
+    vars_files:
+      - credentials.yml
+      - params.yml
+      - ../inventory/device_inventory.yaml
+    vars:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{username}}"
+      dnac_password: "{{password}}"
+      filter: "{{filter}}"
+      filter_value: "{{filter_value}}"
+      cli_template: "{{cli_template}}"
+      device_inventory: "{{device_inventory}}"
+      dnac_login: &dnac_login
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_version: 2.2.2.3
+        dnac_verify: False
+        dnac_debug: False
+
+
+    tasks:
+      - name: Get start timestamp from the system
+        shell: "date +%Y-%m-%dT%H-%M-%S"
+        register: timestamp
+        delegate_to: localhost
+
+      - name: Print playbook start timestamp
+        ansible.builtin.debug:
+          msg: "--Deploy CLI Templates Ansible-- playbook start time: {{timestamp.stdout}}"
+
+      # include tasks to create a new project, template
+      - include: create_template_tasks.yaml
+
+      - name: Print filter info to select devices to be configured with the CLI Template
+        ansible.builtin.debug:
+          msg: "Filter: {{filter}}, value: {{filter_value}}"
+
+      - name:  Create an empty "device_hostname" list set_fact
+        set_fact:
+          device_hostname: []
+
+      - name: Append the device hostnames matching the filter
+        set_fact:
+          device_hostname: "{{device_hostname}} + ['{{item.hostname}}']"
+        loop: "{{device_inventory}}"
+        when: item.{{filter}} == "{{filter_value}}"
+
+      - name: Print devices hostnames matching the filter
+        ansible.builtin.debug:
+          msg: "The devices hostnames that match the filter: {{device_hostname}}"
+
+      - name: Deploy template to devices matching the filter
+        vars:
+          device_name: "{{item}}"
+        # include tasks to deploy template to device
+        include_tasks: deploy_template_tasks.yaml
+        loop: "{{device_hostname}}"
+
+      - name: Get end timestamp from the system
+        shell: "date +%Y-%m-%dT%H-%M-%S"
+        register: timestamp
+        delegate_to: localhost
+
+      - name: Print timestamp
+        ansible.builtin.debug:
+          msg: "--Deploy CLI Templates Ansible-- playbook end time: {{timestamp.stdout}}"

@@ -37,7 +37,7 @@ from pprint import pprint
 from datetime import datetime
 from dnacentersdk import DNACenterAPI
 
-load_dotenv('environment.env')
+load_dotenv('../environment.env')
 
 DNAC_URL = os.getenv('DNAC_URL')
 DNAC_USER = os.getenv('DNAC_USER')
@@ -125,9 +125,13 @@ def main():
     logging.info('Collected the device inventory from Cisco DNA Center')
 
     # save inventory to file
-    with open('device_inventory.json', 'w') as f:
+    with open('../inventory/device_inventory.json', 'w') as f:
         f.write(json.dumps(device_inventory))
     logging.info('Saved the device inventory to file "device_inventory.json"')
+
+    with open('../inventory/device_inventory.yaml', 'w') as f:
+        f.write('device_inventory:\n' + yaml.dump(device_inventory, sort_keys=False))
+    logging.info('Saved the device inventory to file "device_inventory.yaml"')
 
     # retrieve the device image compliance state
     image_non_compliant_devices = []
@@ -144,9 +148,13 @@ def main():
         logging.info('    ' + device['hostname'] + ', Site Hierarchy: ' + device['site'])
 
     # save non compliant devices to file
-    with open('non_compliant_devices.json', 'w') as f:
+    with open('../inventory/non_compliant_devices.json', 'w') as f:
         f.write(json.dumps(image_non_compliant_devices))
     logging.info('Saved the image non-compliant device inventory to file "non_compliant_devices.json"')
+
+    with open('../inventory/non_compliant_devices.yaml', 'w') as f:
+        f.write('non_compliant:\n' + yaml.dump(image_non_compliant_devices, sort_keys=False))
+    logging.info('Saved the image non-compliant device inventory to file "non_compliant_devices.yaml"')
 
     date_time = str(datetime.now().replace(microsecond=0))
     logging.info('End of Application "inventory_collection_sdk.py" Run: ' + date_time)

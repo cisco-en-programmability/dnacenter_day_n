@@ -1,0 +1,77 @@
+---
+- name: Print device hostname
+  debug: var=device_name
+
+- name: "Verify if the device {{device_name}} is managed by Cisco DNA Center"
+  cisco.dnac.network_device_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_version: 2.2.2.3
+    dnac_verify: False
+    dnac_debug: False
+    hostname: "{{device_name}}"
+  register: device_info
+
+- name: Device not found
+  ansible.builtin.debug:
+    msg: "Device with the name: {{device_name}}, not found"
+  when: device_info.dnac_response.response == []
+
+- block:
+  - name: "Deploy template {{template_name}} to device {{device_name}}"
+    cisco.dnac.configuration_template_deploy_v2:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      forcePushTemplate: true
+      isComposite: false
+      templateId: "{{template_id}}"
+      targetInfo:
+        - id: "{{device_name}}"
+          type: "MANAGED_DEVICE_HOSTNAME"
+    register: template_deployment_task
+
+  - name: Parse the deployment task id
+    set_fact:
+      deployment_task_id: "{{template_deployment_task.dnac_response.response.taskId}}"
+
+  - name: Print template deployment task id
+    ansible.builtin.debug:
+      msg: "Deployment task id: {{deployment_task_id}}"
+
+  - name: Sleep for 10 seconds to deploy template and continue with play
+    wait_for:
+      timeout: 10
+    delegate_to: localhost
+
+  - name: Verify the template deployment result
+    cisco.dnac.task_info:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      taskId: "{{deployment_task_id}}"
+    register: deployment_task_info
+
+  - name: Parse the deployment task result
+    set_fact:
+      deployment_task_result: "{{deployment_task_info.dnac_response.response.isError}}"
+
+  - name: Print successful template deployment result
+    ansible.builtin.debug:
+      msg: "Template deployment was successful"
+    when:
+      - deployment_task_result == False
+
+  - name: Print unsuccessful template deployment result
+    ansible.builtin.debug:
+      msg: "Template deployment was not successful"
+    when:
+      - deployment_task_result == True
+  when: device_info.dnac_response.response != []

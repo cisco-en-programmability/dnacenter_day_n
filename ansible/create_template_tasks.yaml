@@ -1,0 +1,132 @@
+---
+  - name: Print the CLI Template
+    ansible.builtin.debug:
+      msg: "CLI Template: {{cli_template}}"
+
+  - name: "Verify if existing project with the name: {{project_name}}"
+    cisco.dnac.configuration_template_project_info:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      name: "{{project_name}}"
+    register: project_info
+
+  - name: Project not found
+    ansible.builtin.debug:
+      msg: "Project with the name: {{project_name}}, not found"
+    when: project_info.dnac_response == []
+
+  - name: Create new project
+    cisco.dnac.configuration_template_project:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      name: "{{project_name}}"
+    register: create_project_info
+    when: project_info.dnac_response == []
+
+  - name: Print create project task id
+    ansible.builtin.debug:
+      msg: "Create a new project, task id is: {{create_project_info.dnac_response.response.taskId}}"
+    when: project_info.dnac_response == []
+
+  - name: Sleep for 10 seconds to create project and continue with play
+    wait_for:
+      timeout: 10
+    delegate_to: localhost
+    when: project_info.dnac_response == []
+
+  - name: Get the project id
+    cisco.dnac.configuration_template_project_info:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      name: "{{project_name}}"
+    register: project_info
+
+  - name: Parse project id
+    set_fact:
+      project_id: "{{project_info.dnac_response[0].id}}"
+
+  - name: Print project id
+    ansible.builtin.debug:
+      msg: "Project id is: {{project_id}}"
+
+  - name: "Create new CLI Template with the name: {{template_name}}-{{timestamp.stdout}}"
+    cisco.dnac.configuration_template_create:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      name: "{{template_name}}-{{timestamp.stdout}}"
+      author: Ansible
+      deviceTypes:
+        - productFamily: Routers
+        - productFamily: Switches and Hubs
+      softwareType: IOS-XE
+      softwareVariant: XE
+      templateContent: "{{cli_template}}"
+      projectId: "{{project_id}}"
+      projectName: "{{project_name}}"
+      language: JINJA
+    register: create_template_response
+
+  - name: Parse the create template task id
+    set_fact:
+      task_id: "{{create_template_response.dnac_response.response.taskId}}"
+
+  - name: Print create template task id
+    ansible.builtin.debug:
+      msg: "Create a new template, task id is: {{task_id}}"
+
+  - name: Sleep for 10 seconds to create template and continue with play
+    wait_for:
+      timeout: 10
+    delegate_to: localhost
+
+  - name: Get the template id
+    cisco.dnac.task_info:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      taskId: "{{task_id}}"
+    register: task_info
+
+  - name: Parse the template id
+    set_fact:
+      template_id: "{{task_info.dnac_response.response.data}}"
+
+  - name: Print template id
+    ansible.builtin.debug:
+      msg: "Template id is: {{template_id}}}"
+
+  - name: Commit template
+    cisco.dnac.configuration_template_version_create:
+      dnac_host: "{{dnac_host}}"
+      dnac_username: "{{dnac_username}}"
+      dnac_password: "{{dnac_password}}"
+      dnac_version: 2.2.2.3
+      dnac_verify: False
+      dnac_debug: False
+      comments: First Commit by Ansible
+      templateId: "{{template_id}}"
+    register: commit_template
+
+  - name: Sleep for 5 seconds to commit template and continue with play
+    wait_for:
+      timeout: 5
+    delegate_to: localhost
