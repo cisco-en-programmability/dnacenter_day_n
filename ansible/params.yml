@@ -10,3 +10,8 @@ cli_template: |
   !
   ntp server 171.68.38.66
   no ntp server 171.68.38.72
+
+
+
+
+

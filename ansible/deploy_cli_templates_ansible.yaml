@@ -3,6 +3,7 @@
     hosts: localhost
     connection: local
     gather_facts: false
+    ignore_errors: true
     vars_files:
       - credentials.yml
       - params.yml
@@ -15,6 +16,7 @@
       filter_value: "{{filter_value}}"
       cli_template: "{{cli_template}}"
       device_inventory: "{{device_inventory}}"
+      device_deployment_status: []
       dnac_login: &dnac_login
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -22,7 +24,6 @@
         dnac_version: 2.2.2.3
         dnac_verify: False
         dnac_debug: False
-
 
     tasks:
       - name: Get start timestamp from the system
@@ -55,12 +56,20 @@
         ansible.builtin.debug:
           msg: "The devices hostnames that match the filter: {{device_hostname}}"
 
+      - name: Create a template deployment status variable
+        set_fact:
+          deployment_status: []
+
       - name: Deploy template to devices matching the filter
         vars:
           device_name: "{{item}}"
         # include tasks to deploy template to device
         include_tasks: deploy_template_tasks.yaml
         loop: "{{device_hostname}}"
+
+      - name: Print deployment status
+        ansible.builtin.debug:
+          msg: "The deployment status is: {{device_deployment_status}}"
 
       - name: Get end timestamp from the system
         shell: "date +%Y-%m-%dT%H-%M-%S"
