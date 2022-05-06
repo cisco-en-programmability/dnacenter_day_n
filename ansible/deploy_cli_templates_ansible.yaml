@@ -56,10 +56,6 @@
         ansible.builtin.debug:
           msg: "The devices hostnames that match the filter: {{device_hostname}}"
 
-      - name: Create a template deployment status variable
-        set_fact:
-          deployment_status: []
-
       - name: Deploy template to devices matching the filter
         vars:
           device_name: "{{item}}"

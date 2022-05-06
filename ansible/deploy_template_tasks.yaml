@@ -19,7 +19,7 @@
     hostname: "{{device_name}}"
   register: device_info
 
-- name: Device deployment status update not managed
+- name: Device deployment status update - device not managed
   set_fact:
     device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'not managed'}]"
   when: device_info.dnac_response.response == []
@@ -35,20 +35,20 @@
   when: device_info.dnac_response.response == []
 
 - block:
-  - name: Check if device is reachable
+  - name: Device deployment status update - device not reachable
+    set_fact:
+      device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'not reachable'}]"
+    when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
+
+  - name: Device not reachable
     ansible.builtin.debug:
       msg: "Device with the name: {{device_name}}, not reachable"
-    when: device_info.dnac_response.response.[0].reachabilityStatus == "Unreachable"
+    when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
 
   - name: Set flag for device not reachable
     set_fact:
       device_managed_reachable: false
-    when: device_info.dnac_response.response.[0].reachabilityStatus == "Unreachable"
-
-  - name: Device deployment status update not reachable
-    set_fact:
-      device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'not reachable'}]"
-    when: device_info.dnac_response.response.[0].reachabilityStatus == "Unreachable"
+    when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
   when: device_info.dnac_response.response != []
 
 - block:
