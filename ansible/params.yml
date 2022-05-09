@@ -1,4 +1,4 @@
-
+---
 project_name: Ansible_Project
 template_name: Ansible_Template
 filter: role
@@ -10,8 +10,3 @@ cli_template: |
   !
   ntp server 171.68.38.66
   no ntp server 171.68.38.72
-
-
-
-
-

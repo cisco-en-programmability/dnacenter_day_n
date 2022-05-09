@@ -8,14 +8,14 @@
   set_fact:
     device_managed_reachable: true
 
-- name: "Verify if the device {{device_name}} is managed by Cisco DNA Center"
+- name: Verify if the device {{device_name}} is managed by Cisco DNA Center
   cisco.dnac.network_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
     dnac_version: 2.2.3.3
-    dnac_verify: False
-    dnac_debug: False
+    dnac_verify: false
+    dnac_debug: false
     hostname: "{{device_name}}"
   register: device_info
 
@@ -35,85 +35,85 @@
   when: device_info.dnac_response.response == []
 
 - block:
-  - name: Device deployment status update - device not reachable
-    set_fact:
-      device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'not reachable'}]"
-    when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
+    - name: Device deployment status update - device not reachable
+      set_fact:
+        device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'not reachable'}]"
+      when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
 
-  - name: Device not reachable
-    ansible.builtin.debug:
-      msg: "Device with the name: {{device_name}}, not reachable"
-    when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
+    - name: Device not reachable
+      ansible.builtin.debug:
+        msg: "Device with the name: {{device_name}}, not reachable"
+      when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
 
-  - name: Set flag for device not reachable
-    set_fact:
-      device_managed_reachable: false
-    when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
+    - name: Set flag for device not reachable
+      set_fact:
+        device_managed_reachable: false
+      when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
   when: device_info.dnac_response.response != []
 
 - block:
-  - name: "Deploy template {{template_name}} to device {{device_name}}"
-    cisco.dnac.configuration_template_deploy_v2:
-      dnac_host: "{{dnac_host}}"
-      dnac_username: "{{dnac_username}}"
-      dnac_password: "{{dnac_password}}"
-      dnac_version: 2.2.3.3
-      dnac_verify: False
-      dnac_debug: False
-      forcePushTemplate: true
-      isComposite: false
-      templateId: "{{template_id}}"
-      targetInfo:
-        - id: "{{device_name}}"
-          type: "MANAGED_DEVICE_HOSTNAME"
-    register: template_deployment_task
+    - name: Deploy template {{template_name}} to device {{device_name}}
+      cisco.dnac.configuration_template_deploy_v2:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_version: 2.2.3.3
+        dnac_verify: false
+        dnac_debug: false
+        forcePushTemplate: true
+        isComposite: false
+        templateId: "{{template_id}}"
+        targetInfo:
+          - id: "{{device_name}}"
+            type: MANAGED_DEVICE_HOSTNAME
+      register: template_deployment_task
 
-  - name: Parse the deployment task id
-    set_fact:
-      deployment_task_id: "{{template_deployment_task.dnac_response.response.taskId}}"
+    - name: Parse the deployment task id
+      set_fact:
+        deployment_task_id: "{{template_deployment_task.dnac_response.response.taskId}}"
 
-  - name: Sleep for 10 seconds to deploy template and continue with play
-    wait_for:
-      timeout: 10
-    delegate_to: localhost
+    - name: Sleep for 10 seconds to deploy template and continue with play
+      wait_for:
+        timeout: 10
+      delegate_to: localhost
 
-  - name: Verify the template deployment result
-    cisco.dnac.task_info:
-      dnac_host: "{{dnac_host}}"
-      dnac_username: "{{dnac_username}}"
-      dnac_password: "{{dnac_password}}"
-      dnac_version: 2.2.3.3
-      dnac_verify: False
-      dnac_debug: False
-      taskId: "{{deployment_task_id}}"
-    register: deployment_task_info
+    - name: Verify the template deployment result
+      cisco.dnac.task_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_version: 2.2.3.3
+        dnac_verify: false
+        dnac_debug: false
+        taskId: "{{deployment_task_id}}"
+      register: deployment_task_info
 
-  - name: Parse the deployment task result
-    set_fact:
-      deployment_task_result: "{{deployment_task_info.dnac_response.response.isError}}"
+    - name: Parse the deployment task result
+      set_fact:
+        deployment_task_result: "{{deployment_task_info.dnac_response.response.isError}}"
 
-  - name: Print successful template deployment result
-    ansible.builtin.debug:
-      msg: "Template deployment successful"
-    when:
-      - deployment_task_result == False
+    - name: Print successful template deployment result
+      ansible.builtin.debug:
+        msg: Template deployment successful
+      when:
+        - deployment_task_result == False
 
-  - name: Update deployment successful status
-    set_fact:
-      device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'Template deployment successful'}]"
-    when:
-      - deployment_task_result == False
+    - name: Update deployment successful status
+      set_fact:
+        device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'Template deployment successful'}]"
+      when:
+        - deployment_task_result == False
 
-  - name: Print unsuccessful template deployment result
-    ansible.builtin.debug:
-      msg: "Template deployment failed"
-    when:
-      - deployment_task_result == True
+    - name: Print unsuccessful template deployment result
+      ansible.builtin.debug:
+        msg: Template deployment failed
+      when:
+        - deployment_task_result == True
 
-  - name: Update deployment failed status
-    set_fact:
-      device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'Template deployment failed'}]"
-    when:
-      - deployment_task_result == True
+    - name: Update deployment failed status
+      set_fact:
+        device_deployment_status: "{{device_deployment_status}} + [{'{{device_name}}' : 'Template deployment failed'}]"
+      when:
+        - deployment_task_result == True
 
   when: device_managed_reachable

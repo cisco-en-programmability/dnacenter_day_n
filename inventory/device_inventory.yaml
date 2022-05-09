@@ -1,105 +1,106 @@
+---
 device_inventory:
-- hostname: AP3800i
-  device_ip: 10.93.141.70
-  device_id: fca3a1ae-4735-407c-abda-74d23a144afc
-  version: 17.4.1.6
-  device_family: Cisco 3800I Unified Access Point
-  role: ACCESS
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: C9800-CL
-  device_ip: 10.93.141.38
-  device_id: e5facea9-6097-45b7-9c1f-1c8c7224e812
-  version: 17.4.1
-  device_family: Cisco Catalyst 9800-CL Wireless Controller for Cloud
-  role: ACCESS
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: LO-BN
-  device_ip: 10.93.141.28
-  device_id: db05ad49-2c8d-4094-9df6-3a03f9b28069
-  version: 17.6.1
-  device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
-  site: Global/OR/LO/Floor-3
-  site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
-- hostname: LO-CN
-  device_ip: 10.93.141.20
-  device_id: 6a612b05-1c89-4d0a-a4d3-94ec5e5a7a57
-  version: 17.6.1
-  device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
-  site: Global/OR/LO/Floor-3
-  site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
-- hostname: LO-EDGE
-  device_ip: 10.93.141.19
-  device_id: cd7c74bc-8301-4be8-bcbb-0547be8d03b7
-  version: 16.9.5
-  device_family: Cisco Catalyst38xx stack-able ethernet switch
-  role: ACCESS
-  site: Global/OR/LO/Floor-3
-  site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
-- hostname: NYC-ACCESS
-  device_ip: 10.93.141.26
-  device_id: 20937bce-b8d8-42c2-b3a0-08cda93fae1e
-  version: 17.3.2a
-  device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
-  site: Global/NY/NYC/Floor-8
-  site_id: 755df6b0-6bdb-4d17-8983-906645e6bf98
-- hostname: NYC-RO
-  device_ip: 10.93.141.25
-  device_id: 3c4aea42-2e1e-4f45-8fcd-530cb97f934f
-  version: 17.3.2
-  device_family: Cisco Cloud Services Router 1000V
-  role: BORDER ROUTER
-  site: Global/NY/NYC/Floor-8
-  site_id: 755df6b0-6bdb-4d17-8983-906645e6bf98
-- hostname: PDX-CORE1
-  device_ip: 10.93.141.18
-  device_id: d11fda6f-d379-4839-aefa-0f68e151e59b
-  version: 16.9.5
-  device_family: Cisco Catalyst38xx stack-able ethernet switch
-  role: CORE
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: PDX-M
-  device_ip: 10.93.141.17
-  device_id: 3aa5a467-1c7b-415b-bcdb-1fea7058f805
-  version: 16.9.5
-  device_family: Cisco Catalyst38xx stack-able ethernet switch
-  role: CORE
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: PDX-RN
-  device_ip: 10.93.141.22
-  device_id: 657008e6-6160-481e-aa7d-a5b3513b1f7c
-  version: 17.3.2
-  device_family: Cisco Cloud Services Router 1000V
-  role: BORDER ROUTER
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: PDX-RO
-  device_ip: 10.93.141.23
-  device_id: 01f7cdf2-2298-42c7-bb74-dc68e3c3a051
-  version: 17.3.2
-  device_family: Cisco Cloud Services Router 1000V
-  role: BORDER ROUTER
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: PDX-STACK
-  device_ip: 10.93.141.21
-  device_id: 224a481b-da09-4d57-bcdd-f5fa962edf32
-  version: 17.3.2a
-  device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
-  site: Global/OR/PDX/Floor-2
-  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
-- hostname: SP
-  device_ip: 10.93.141.24
-  device_id: 5e75ac86-5811-40eb-b974-6f3c2617505d
-  version: 17.3.2
-  device_family: Cisco Cloud Services Router 1000V
-  role: BORDER ROUTER
-  site: Global/CO/ENGL/Floor-5
-  site_id: f2a5bd0d-4ec9-44ed-bf6a-a43b12378ff1
+  - hostname: AP3800i
+    device_ip: 10.93.141.70
+    device_id: fca3a1ae-4735-407c-abda-74d23a144afc
+    version: 17.4.1.6
+    device_family: Cisco 3800I Unified Access Point
+    role: ACCESS
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: C9800-CL
+    device_ip: 10.93.141.38
+    device_id: e5facea9-6097-45b7-9c1f-1c8c7224e812
+    version: 17.4.1
+    device_family: Cisco Catalyst 9800-CL Wireless Controller for Cloud
+    role: ACCESS
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: LO-BN
+    device_ip: 10.93.141.28
+    device_id: db05ad49-2c8d-4094-9df6-3a03f9b28069
+    version: 17.6.1
+    device_family: Cisco Catalyst 9300 Switch
+    role: ACCESS
+    site: Global/OR/LO/Floor-3
+    site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
+  - hostname: LO-CN
+    device_ip: 10.93.141.20
+    device_id: 6a612b05-1c89-4d0a-a4d3-94ec5e5a7a57
+    version: 17.6.1
+    device_family: Cisco Catalyst 9300 Switch
+    role: ACCESS
+    site: Global/OR/LO/Floor-3
+    site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
+  - hostname: LO-EDGE
+    device_ip: 10.93.141.19
+    device_id: cd7c74bc-8301-4be8-bcbb-0547be8d03b7
+    version: 16.9.5
+    device_family: Cisco Catalyst38xx stack-able ethernet switch
+    role: ACCESS
+    site: Global/OR/LO/Floor-3
+    site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
+  - hostname: NYC-ACCESS
+    device_ip: 10.93.141.26
+    device_id: 20937bce-b8d8-42c2-b3a0-08cda93fae1e
+    version: 17.3.2a
+    device_family: Cisco Catalyst 9300 Switch
+    role: ACCESS
+    site: Global/NY/NYC/Floor-8
+    site_id: 755df6b0-6bdb-4d17-8983-906645e6bf98
+  - hostname: NYC-RO
+    device_ip: 10.93.141.25
+    device_id: 3c4aea42-2e1e-4f45-8fcd-530cb97f934f
+    version: 17.3.2
+    device_family: Cisco Cloud Services Router 1000V
+    role: BORDER ROUTER
+    site: Global/NY/NYC/Floor-8
+    site_id: 755df6b0-6bdb-4d17-8983-906645e6bf98
+  - hostname: PDX-CORE1
+    device_ip: 10.93.141.18
+    device_id: d11fda6f-d379-4839-aefa-0f68e151e59b
+    version: 16.9.5
+    device_family: Cisco Catalyst38xx stack-able ethernet switch
+    role: CORE
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: PDX-M
+    device_ip: 10.93.141.17
+    device_id: 3aa5a467-1c7b-415b-bcdb-1fea7058f805
+    version: 16.9.5
+    device_family: Cisco Catalyst38xx stack-able ethernet switch
+    role: CORE
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: PDX-RN
+    device_ip: 10.93.141.22
+    device_id: 657008e6-6160-481e-aa7d-a5b3513b1f7c
+    version: 17.3.2
+    device_family: Cisco Cloud Services Router 1000V
+    role: BORDER ROUTER
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: PDX-RO
+    device_ip: 10.93.141.23
+    device_id: 01f7cdf2-2298-42c7-bb74-dc68e3c3a051
+    version: 17.3.2
+    device_family: Cisco Cloud Services Router 1000V
+    role: BORDER ROUTER
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: PDX-STACK
+    device_ip: 10.93.141.21
+    device_id: 224a481b-da09-4d57-bcdd-f5fa962edf32
+    version: 17.3.2a
+    device_family: Cisco Catalyst 9300 Switch
+    role: ACCESS
+    site: Global/OR/PDX/Floor-2
+    site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d
+  - hostname: SP
+    device_ip: 10.93.141.24
+    device_id: 5e75ac86-5811-40eb-b974-6f3c2617505d
+    version: 17.3.2
+    device_family: Cisco Cloud Services Router 1000V
+    role: BORDER ROUTER
+    site: Global/CO/ENGL/Floor-5
+    site_id: f2a5bd0d-4ec9-44ed-bf6a-a43b12378ff1
