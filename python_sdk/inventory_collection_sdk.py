@@ -103,28 +103,49 @@ def main():
     # create device inventory [{"hostname": "", "device_ip": "","device_id": "", "version": "", "device_family": "",
     #  "role": "", "site": "", "site_id": ""},...]
     device_inventory = []
+    ap_inventory = []
     for device in device_list:
-        device_details = {'hostname': device['hostname']}
-        device_details.update({'device_ip': device['managementIpAddress']})
-        device_details.update({'device_id': device['id']})
-        device_details.update({'version': device['softwareVersion']})
-        device_details.update({'device_family': device['type']})
-        device_details.update({'role': device['role']})
+        # select which inventory to add the device to
+        if device.family != "Unified AP":
+            device_details = {'hostname': device['hostname']}
+            device_details.update({'device_ip': device['managementIpAddress']})
+            device_details.update({'device_id': device['id']})
+            device_details.update({'version': device['softwareVersion']})
+            device_details.update({'device_family': device['type']})
+            device_details.update({'role': device['role']})
 
-        # get the device site hierarchy
-        response = dnac_api.devices.get_device_detail(identifier='uuid', search_by=device['id'])
-        site = response['response']['location']
-        device_details.update({'site': site})
+            # get the device site hierarchy
+            response = dnac_api.devices.get_device_detail(identifier='uuid', search_by=device['id'])
+            site = response['response']['location']
+            device_details.update({'site': site})
 
-        # get the site id
-        response = dnac_api.sites.get_site(name=site)
-        site_id = response['response'][0]['id']
-        device_details.update({'site_id': site_id})
-        device_inventory.append(device_details)
+            # get the site id
+            response = dnac_api.sites.get_site(name=site)
+            site_id = response['response'][0]['id']
+            device_details.update({'site_id': site_id})
+            device_inventory.append(device_details)
+        else:
+            device_details = {'hostname': device['hostname']}
+            device_details.update({'device_ip': device['managementIpAddress']})
+            device_details.update({'device_id': device['id']})
+            device_details.update({'version': device['softwareVersion']})
+            device_details.update({'device_family': device['type']})
+            device_details.update({'role': device['role']})
+
+            # get the device site hierarchy
+            response = dnac_api.devices.get_device_detail(identifier='uuid', search_by=device['id'])
+            site = response['response']['location']
+            device_details.update({'site': site})
+
+            # get the site id
+            response = dnac_api.sites.get_site(name=site)
+            site_id = response['response'][0]['id']
+            device_details.update({'site_id': site_id})
+            ap_inventory.append(device_details)
 
     logging.info('Collected the device inventory from Cisco DNA Center')
 
-    # save inventory to file
+    # save device inventory to files formatted json and yaml
     with open('../inventory/device_inventory.json', 'w') as f:
         f.write(json.dumps(device_inventory))
     logging.info('Saved the device inventory to file "device_inventory.json"')
@@ -132,6 +153,15 @@ def main():
     with open('../inventory/device_inventory.yaml', 'w') as f:
         f.write('device_inventory:\n' + yaml.dump(device_inventory, sort_keys=False))
     logging.info('Saved the device inventory to file "device_inventory.yaml"')
+
+    # save ap inventory to files formatted json and yaml
+    with open('../inventory/ap_inventory.json', 'w') as f:
+        f.write(json.dumps(ap_inventory))
+    logging.info('Saved the device inventory to file "ap_inventory.json"')
+
+    with open('../inventory/ap_inventory.yaml', 'w') as f:
+        f.write('ap_inventory:\n' + yaml.dump(ap_inventory, sort_keys=False))
+    logging.info('Saved the device inventory to file "ap_inventory.yaml"')
 
     # retrieve the device image compliance state
     image_non_compliant_devices = []
