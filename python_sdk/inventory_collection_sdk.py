@@ -70,13 +70,14 @@ def time_sleep(time_sec):
 
 def main():
     """
-    This application will automate the Software Image Management (SWIM) operations using the Cisco DNA Center REST APIs
+    This application will automate Day N operations, creating device inventories, using the Cisco DNA Center REST APIs
     App workflow:
         - create device inventory - hostname, device management IP address, device UUID, software version,
             device family, role, site, site UUID
         - create access point inventory - hostname, device management IP address, device UUID, software version,
             device family, role, site, site UUID
-        - identify device image compliance state
+        - identify device image compliance state and create image non-compliant inventories
+        - save all files to local folder, formatted using JSON and YAML
         - push the inventory files to GitHub repo
     :return:
     """
