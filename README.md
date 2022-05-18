@@ -70,7 +70,7 @@ ansible-playbook -e "deployment_name=csr_updates.yaml" deploy_cli_templates_ansi
 
 Sample Output:
 
-```yaml
+```shell
 (venv) gzapodea@GZAPODEA-M-G7G6 ansible % ansible-playbook -e "deployment_name=csr_updates.yaml" deploy_cli_templates_ansible.yaml
 [WARNING]: No inventory was parsed, only implicit localhost is available
 [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
