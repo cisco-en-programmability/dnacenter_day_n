@@ -1,0 +1,9 @@
+ap_inventory:
+- hostname: AP3800i
+  device_ip: 10.93.141.70
+  device_id: fca3a1ae-4735-407c-abda-74d23a144afc
+  version: 17.4.1.6
+  device_family: Cisco 3800I Unified Access Point
+  role: ACCESS
+  site: Global/OR/PDX/Floor-2
+  site_id: 17d5b2b9-ff29-4320-bdab-fd6c3d7df09d

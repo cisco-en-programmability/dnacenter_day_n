@@ -4,7 +4,15 @@ non_compliant:
   device_id: 6a612b05-1c89-4d0a-a4d3-94ec5e5a7a57
   version: 17.6.1
   device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
+  role: DISTRIBUTION
+  site: Global/OR/LO/Floor-3
+  site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
+- hostname: LO-BN
+  device_ip: 10.93.141.28
+  device_id: db05ad49-2c8d-4094-9df6-3a03f9b28069
+  version: 17.6.1
+  device_family: Cisco Catalyst 9300 Switch
+  role: DISTRIBUTION
   site: Global/OR/LO/Floor-3
   site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
 - hostname: NYC-ACCESS
@@ -12,14 +20,6 @@ non_compliant:
   device_id: 20937bce-b8d8-42c2-b3a0-08cda93fae1e
   version: 17.3.2a
   device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
+  role: DISTRIBUTION
   site: Global/NY/NYC/Floor-8
   site_id: 755df6b0-6bdb-4d17-8983-906645e6bf98
-- hostname: LO-BN
-  device_ip: 10.93.141.28
-  device_id: db05ad49-2c8d-4094-9df6-3a03f9b28069
-  version: 17.6.1
-  device_family: Cisco Catalyst 9300 Switch
-  role: ACCESS
-  site: Global/OR/LO/Floor-3
-  site_id: 3bb9e022-b230-40f2-a17e-f588376f31e3
