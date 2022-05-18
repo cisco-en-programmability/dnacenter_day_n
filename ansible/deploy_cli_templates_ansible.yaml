@@ -6,7 +6,7 @@
     ignore_errors: true
     vars_files:
       - credentials.yml
-      - ../inventory/device_inventory.yaml
+      - ../inventory/device_inventory.yaml  # this inventory file could be pulled from GitHub
     vars:
       dnac_host: "{{ dnac_host }}"
       dnac_username: "{{ username }}"
@@ -41,7 +41,7 @@
 
       - name: Update templates folder from the GitHub repo
         git:
-          repo: https://github.com/cisco-en-programmability/dnacenter_day_n_templates.git
+          repo: https://github.com/zapodeanu/dnacenter_day_n_templates.git
           dest: /Users/gzapodea/PythonCode/dnacenter_day_n_templates
           update: yes
           force: yes
@@ -52,7 +52,7 @@
           files_matching: "{{ deployment_name }}"
 
       # include tasks to create a new project, template
-      - include: create_template_tasks.yaml
+      - include_tasks: create_template_tasks.yaml
 
       - name: Print filter info to select devices to be configured with the CLI Template
         ansible.builtin.debug:
