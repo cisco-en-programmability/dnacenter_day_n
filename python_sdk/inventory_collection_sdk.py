@@ -21,27 +21,30 @@ __copyright__ = "Copyright (c) 2022 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.1"
 
 
+import json
+import logging
 import os
 import time
-import requests
-import urllib3
-import json
 import yaml
-import logging
-import dotenv
-
-from requests.auth import HTTPBasicAuth  # for Basic Auth
-from urllib3.exceptions import InsecureRequestWarning  # for insecure https warnings
-from dotenv import load_dotenv
+import base64
+import requests
 from pprint import pprint
+from github import Github
+
 from datetime import datetime
 from dnacentersdk import DNACenterAPI
+from dotenv import load_dotenv
+from requests.auth import HTTPBasicAuth  # for Basic Auth
 
 load_dotenv('../environment.env')
 
 DNAC_URL = os.getenv('DNAC_URL')
 DNAC_USER = os.getenv('DNAC_USER')
 DNAC_PASS = os.getenv('DNAC_PASS')
+GITHUB_USERNAME = os.getenv('GITHUB_USERNAME')
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+
+GITHUB_REPO = 'dnacenter_day_n_inventory'
 
 os.environ['TZ'] = 'America/Los_Angeles'  # define the timezone for PST
 time.tzset()  # adjust the timezone, more info https://help.pythonanywhere.com/pages/SettingTheTimezone/
@@ -71,7 +74,10 @@ def main():
     App workflow:
         - create device inventory - hostname, device management IP address, device UUID, software version,
             device family, role, site, site UUID
+        - create access point inventory - hostname, device management IP address, device UUID, software version,
+            device family, role, site, site UUID
         - identify device image compliance state
+        - push the inventory files to GitHub repo
     :return:
     """
 
@@ -145,7 +151,7 @@ def main():
 
     logging.info('Collected the device inventory from Cisco DNA Center')
 
-    # save device inventory to files formatted json and yaml
+    # save device inventory to json and yaml formatted files
     with open('../inventory/device_inventory.json', 'w') as f:
         f.write(json.dumps(device_inventory))
     logging.info('Saved the device inventory to file "device_inventory.json"')
@@ -154,7 +160,7 @@ def main():
         f.write('device_inventory:\n' + yaml.dump(device_inventory, sort_keys=False))
     logging.info('Saved the device inventory to file "device_inventory.yaml"')
 
-    # save ap inventory to files formatted json and yaml
+    # save ap inventory to json and yaml formatted files
     with open('../inventory/ap_inventory.json', 'w') as f:
         f.write(json.dumps(ap_inventory))
     logging.info('Saved the device inventory to file "ap_inventory.json"')
@@ -177,7 +183,7 @@ def main():
     for device in image_non_compliant_devices:
         logging.info('    ' + device['hostname'] + ', Site Hierarchy: ' + device['site'])
 
-    # save non compliant devices to file
+    # save non compliant devices to json and yaml formatted files
     with open('../inventory/non_compliant_devices.json', 'w') as f:
         f.write(json.dumps(image_non_compliant_devices))
     logging.info('Saved the image non-compliant device inventory to file "non_compliant_devices.json"')
@@ -186,12 +192,39 @@ def main():
         f.write('non_compliant:\n' + yaml.dump(image_non_compliant_devices, sort_keys=False))
     logging.info('Saved the image non-compliant device inventory to file "non_compliant_devices.yaml"')
 
+    # push all files to GitHub repo
+
+    os.chdir('../inventory')
+    files_list = os.listdir('../inventory')
+
+    # authenticate to github
+    g = Github(GITHUB_USERNAME, GITHUB_TOKEN)
+
+    # searching for my repository
+    repo = g.search_repositories(GITHUB_REPO)[0]
+
+    # update inventory files
+
+    for filename in files_list:
+        try:
+            contents = repo.get_contents(filename)
+            repo.delete_file(contents.path, 'remove' + filename, contents.sha)
+        except:
+            print('File does not exist')
+
+        with open(filename) as f:
+            file_content = f.read()
+        file_bytes = file_content.encode('ascii')
+        base64_bytes = base64.b64encode(file_bytes)
+        logging.info('GitHub push for file: ' + filename)
+
+        # create a file and commit n push
+        repo.create_file(filename, "committed from python_sdk", file_content)
+
     date_time = str(datetime.now().replace(microsecond=0))
     logging.info('End of Application "inventory_collection_sdk.py" Run: ' + date_time)
 
     return
 
-
 if __name__ == '__main__':
     main()
-
