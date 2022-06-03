@@ -72,11 +72,6 @@
     set_fact:
       deployment_task_id: "{{ template_deployment_task.dnac_response.response.taskId }}"
 
-  - name: Sleep for 10 seconds to deploy template and continue with play
-    wait_for:
-      timeout: 10
-    delegate_to: localhost
-
   - name: Verify the template deployment result
     cisco.dnac.task_info:
       dnac_host: "{{ dnac_host }}"
@@ -116,4 +111,10 @@
     when:
       - deployment_task_result == True
 
+
   when: device_managed_reachable
+
+
+
+
+

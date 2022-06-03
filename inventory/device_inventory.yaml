@@ -34,7 +34,7 @@ device_inventory:
 - hostname: NYC-ACCESS
   device_ip: 10.93.141.26
   device_id: 20937bce-b8d8-42c2-b3a0-08cda93fae1e
-  version: 17.3.2a
+  version: 17.6.3
   device_family: Cisco Catalyst 9300 Switch
   role: DISTRIBUTION
   site: Global/NY/NYC/Floor-8
