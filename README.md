@@ -449,8 +449,9 @@ localhost                  : ok=71   changed=2    unreachable=0    failed=0    s
 **"main.tf"** Terraform Plan
 - will use local device image non-compliant inventory, may use GutHub inventory
 - start the software distribution to each device
-- report the devices included in the distribution
-- the following output includes the "terraform init", "terraform plan", and "terraform apply" commands 
+- report the devices included in the distribution 
+
+The following output includes the "terraform init", "terraform plan", and "terraform apply" commands 
 
 ```shell
 (venv) gzapodea@GZAPODEA-M-G7G6 terraform % tree
