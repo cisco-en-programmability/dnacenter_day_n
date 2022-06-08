@@ -16,7 +16,7 @@ This repo is for an application that will automate Day N operations using Cisco 
 
 This application will automate Day N operations, creating device inventories, using the Cisco DNA Center REST APIs
 
-"inventory_collection_sdk.py" Python app workflow:
+**"inventory_collection_sdk.py"** Python app workflow:
 - create device inventory - hostname, device management IP address, device UUID, software version,
     device family, role, site, site UUID
 - create access point inventory - hostname, device management IP address, device UUID, software version,
@@ -446,10 +446,11 @@ localhost                  : ok=71   changed=2    unreachable=0    failed=0    s
 
 ```
 
-"main.tf" Terraform Plan
+**"main.tf"** Terraform Plan
 - will use local device image non-compliant inventory, may use GutHub inventory
 - start the software distribution to each device
 - report the devices included in the distribution
+- the following output includes the "terraform init", "terraform plan", and "terraform apply" commands 
 
 ```shell
 (venv) gzapodea@GZAPODEA-M-G7G6 terraform % tree
