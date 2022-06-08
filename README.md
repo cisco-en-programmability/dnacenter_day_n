@@ -457,6 +457,196 @@ localhost                  : ok=71   changed=2    unreachable=0    failed=0    s
 .
 ├── credentials.tf
 ├── main.tf
+├── modules
+│   └── distribution
+│       ├── main.tf
+│       └── outputs.tf
+└── terraform.tfstate
+
+2 directories, 5 files
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % clear
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % tree
+.
+├── credentials.tf
+├── main.tf
+└── modules
+    └── distribution
+        ├── main.tf
+        └── outputs.tf
+
+2 directories, 4 files
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % terraform init
+Initializing modules...
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding cisco-en-programmability/dnacenter versions matching "0.3.0-beta"...
+- Installing cisco-en-programmability/dnacenter v0.3.0-beta...
+- Installed cisco-en-programmability/dnacenter v0.3.0-beta (self-signed, key ID A3DE487CD358EC62)
+
+Partner and community providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://www.terraform.io/docs/cli/plugins/signing.html
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % terraform plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # module.swim_upgrade[0].data.dnacenter_task.response will be read during apply
+  # (config refers to values not yet known)
+ <= data "dnacenter_task" "response" {
+      + id      = (known after apply)
+      + item    = (known after apply)
+      + items   = (known after apply)
+      + task_id = (known after apply)
+    }
+
+  # module.swim_upgrade[0].dnacenter_image_distribution.response will be created
+  + resource "dnacenter_image_distribution" "response" {
+      + id           = (known after apply)
+      + item         = (known after apply)
+      + last_updated = (known after apply)
+
+      + parameters {
+          + payload {
+              + device_uuid = "6a612b05-1c89-4d0a-a4d3-94ec5e5a7a57"
+            }
+        }
+    }
+
+  # module.swim_upgrade[1].data.dnacenter_task.response will be read during apply
+  # (config refers to values not yet known)
+ <= data "dnacenter_task" "response" {
+      + id      = (known after apply)
+      + item    = (known after apply)
+      + items   = (known after apply)
+      + task_id = (known after apply)
+    }
+
+  # module.swim_upgrade[1].dnacenter_image_distribution.response will be created
+  + resource "dnacenter_image_distribution" "response" {
+      + id           = (known after apply)
+      + item         = (known after apply)
+      + last_updated = (known after apply)
+
+      + parameters {
+          + payload {
+              + device_uuid = "db05ad49-2c8d-4094-9df6-3a03f9b28069"
+            }
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + device_upgraded = [
+      + "LO-CN",
+      + "LO-BN",
+    ]
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % terraform apply -auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # module.swim_upgrade[0].data.dnacenter_task.response will be read during apply
+  # (config refers to values not yet known)
+ <= data "dnacenter_task" "response" {
+      + id      = (known after apply)
+      + item    = (known after apply)
+      + items   = (known after apply)
+      + task_id = (known after apply)
+    }
+
+  # module.swim_upgrade[0].dnacenter_image_distribution.response will be created
+  + resource "dnacenter_image_distribution" "response" {
+      + id           = (known after apply)
+      + item         = (known after apply)
+      + last_updated = (known after apply)
+
+      + parameters {
+          + payload {
+              + device_uuid = "6a612b05-1c89-4d0a-a4d3-94ec5e5a7a57"
+            }
+        }
+    }
+
+  # module.swim_upgrade[1].data.dnacenter_task.response will be read during apply
+  # (config refers to values not yet known)
+ <= data "dnacenter_task" "response" {
+      + id      = (known after apply)
+      + item    = (known after apply)
+      + items   = (known after apply)
+      + task_id = (known after apply)
+    }
+
+  # module.swim_upgrade[1].dnacenter_image_distribution.response will be created
+  + resource "dnacenter_image_distribution" "response" {
+      + id           = (known after apply)
+      + item         = (known after apply)
+      + last_updated = (known after apply)
+
+      + parameters {
+          + payload {
+              + device_uuid = "db05ad49-2c8d-4094-9df6-3a03f9b28069"
+            }
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + device_upgraded = [
+      + "LO-CN",
+      + "LO-BN",
+    ]
+module.swim_upgrade[1].dnacenter_image_distribution.response: Creating...
+module.swim_upgrade[0].dnacenter_image_distribution.response: Creating...
+module.swim_upgrade[1].dnacenter_image_distribution.response: Creation complete after 5s [id=1654723290]
+module.swim_upgrade[0].dnacenter_image_distribution.response: Creation complete after 5s [id=1654723290]
+module.swim_upgrade[1].data.dnacenter_task.response: Reading...
+module.swim_upgrade[0].data.dnacenter_task.response: Reading...
+module.swim_upgrade[0].data.dnacenter_task.response: Read complete after 0s [id=1654723290]
+module.swim_upgrade[1].data.dnacenter_task.response: Read complete after 0s [id=1654723290]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+device_upgraded = [
+  "LO-CN",
+  "LO-BN",
+]
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % clear
+(venv) gzapodea@GZAPODEA-M-G7G6 terraform % tree
+.
+├── credentials.tf
+├── main.tf
 └── modules
     └── distribution
         ├── main.tf
@@ -626,6 +816,8 @@ module.swim_upgrade[1].dnacenter_image_distribution.response: Still creating... 
 module.swim_upgrade[0].dnacenter_image_distribution.response: Still creating... [10s elapsed]
 module.swim_upgrade[0].dnacenter_image_distribution.response: Still creating... [20s elapsed]
 module.swim_upgrade[1].dnacenter_image_distribution.response: Still creating... [20s elapsed]
+module.swim_upgrade[1].dnacenter_image_distribution.response: Still creating... [30s elapsed]
+module.swim_upgrade[0].dnacenter_image_distribution.response: Still creating... [30s elapsed]
 ...
 ...
 ...
