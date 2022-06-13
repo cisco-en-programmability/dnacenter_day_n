@@ -16,6 +16,10 @@ This repo is for an application that will automate Day N operations using Cisco 
 
 This application will automate Day N operations, creating device inventories, using the Cisco DNA Center REST APIs
 
+Prior to use the following files need to be populated and renamed by removing the .example extension:
+- environment.env.example
+- ansible/credentials.yml.example
+
 **"inventory_collection_sdk.py"** Python app workflow:
 - create device inventory - hostname, device management IP address, device UUID, software version,
     device family, role, site, site UUID
