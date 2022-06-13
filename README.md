@@ -52,7 +52,7 @@ INFO:root:GitHub push for file: device_inventory.yaml
 INFO:root:End of Application "inventory_collection_sdk.py" Run: 2022-05-18 15:34:33
 ```
 
-"deploy_cli_templates_ansible.yaml" Ansible playbook workflow:
+**"deploy_cli_templates_ansible.yaml"** Ansible playbook workflow:
 - pull from GitHub the latest templates
 - optional, pull from GitHub the device inventory (not implemented)
 - identify devices that match the device filter
