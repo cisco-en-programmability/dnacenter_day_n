@@ -41,6 +41,7 @@ load_dotenv('../environment.env')
 DNAC_URL = os.getenv('DNAC_URL')
 DNAC_USER = os.getenv('DNAC_USER')
 DNAC_PASS = os.getenv('DNAC_PASS')
+
 GITHUB_USERNAME = os.getenv('GITHUB_USERNAME')
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 

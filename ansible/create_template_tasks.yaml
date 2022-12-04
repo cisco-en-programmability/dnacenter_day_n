@@ -95,7 +95,7 @@
       timeout: 10
     delegate_to: localhost
 
-  - name: Get the template id
+  - name: Get the task id
     cisco.dnac.task_info:
       dnac_host: "{{ dnac_host }}"
       dnac_username: "{{ dnac_username }}"
