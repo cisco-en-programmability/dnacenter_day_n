@@ -10,7 +10,7 @@ This repo is for an application that will automate Day N operations using Cisco 
 **Tools & Frameworks:**
 
 - Python environment to run the application
-- Cisco DNA Center Python SDK, Cisco DNA Center Ansible Collection
+- Cisco DNA Center Python SDK, Cisco DNA Center Ansible Collection, Cisco DNA Center Terraform Provider
 
 **Usage**
 
