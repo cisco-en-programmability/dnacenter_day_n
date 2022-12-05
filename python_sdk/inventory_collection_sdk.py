@@ -90,7 +90,7 @@ def main():
     logging.info('App "inventory_collection_sdk.py" Start, ' + current_time)
 
     # create a DNACenterAPI "Connection Object" to use the Python SDK
-    dnac_api = DNACenterAPI(username=DNAC_USER, password=DNAC_PASS, base_url=DNAC_URL, version='2.2.3.3',
+    dnac_api = DNACenterAPI(username=DNAC_USER, password=DNAC_PASS, base_url=DNAC_URL, version='2.3.3.0',
                             verify=False)
 
     # get the device count
