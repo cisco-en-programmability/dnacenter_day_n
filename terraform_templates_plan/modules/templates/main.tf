@@ -66,6 +66,7 @@ resource "dnacenter_configuration_template" "response" {
   }
 }
 
+
 # get the template details
 data "dnacenter_templates_details" "response" {
   provider                     = dnacenter
@@ -74,12 +75,13 @@ data "dnacenter_templates_details" "response" {
   depends_on = [dnacenter_configuration_template.response]
 }
 
+
 # version (commit) the template
 resource "dnacenter_configuration_template_version" "response" {
   provider = dnacenter
   parameters {
     comments = "Pulled from GitHub, committed by Terraform"
-    template_id = data.dnacenter_templates_details.response.item.0.id
+    template_id = dnacenter_configuration_template.response.item.0.id
   }
 
 }
