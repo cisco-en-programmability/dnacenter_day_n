@@ -131,3 +131,7 @@ dmypy.json
 /environment.env
 /ansible/credentials.yml
 /inventory/
+/terraform_templates_plan/.terraform.lock.hcl
+/terraform_templates_plan/terraform.tfstate.backup
+/terraform_templates_plan/terraform.tfstate
+/terraform_templates_plan/.terraform/
