@@ -4,7 +4,7 @@ terraform {
   required_version = ">= 1.2.0"
   required_providers {
     dnacenter = {
-      version = "0.3.0-beta"
+      version = "1.1.6-beta"
       source  = "cisco-en-programmability/dnacenter"
     }
   }

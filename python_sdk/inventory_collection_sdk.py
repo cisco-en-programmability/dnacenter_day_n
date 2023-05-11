@@ -27,8 +27,6 @@ import os
 import time
 import yaml
 import base64
-import requests
-from pprint import pprint
 from github import Github
 
 from datetime import datetime
@@ -108,7 +106,7 @@ def main():
         device_list.extend(response['response'])
     logging.info('Collected the device list from Cisco DNA Center')
 
-    # create device inventory [{"hostname": "", "device_ip": "","device_id": "", "version": "", "device_family": "",
+    # create device and AP inventory [{"hostname": "", "device_ip": "","device_id": "", "version": "", "device_family": "",
     #  "role": "", "site": "", "site_id": ""},...]
     device_inventory = []
     ap_inventory = []
@@ -185,7 +183,7 @@ def main():
     for device in image_non_compliant_devices:
         logging.info('    ' + device['hostname'] + ', Site Hierarchy: ' + device['site'])
 
-    # save non compliant devices to json and yaml formatted files
+    # save non-compliant devices to json and yaml formatted files
     with open('../inventory/non_compliant_devices.json', 'w') as f:
         f.write(json.dumps(image_non_compliant_devices))
     logging.info('Saved the image non-compliant device inventory to file "non_compliant_devices.json"')
