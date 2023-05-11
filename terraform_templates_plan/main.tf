@@ -107,11 +107,11 @@ output "dnac_project_id" {
 # define the create template module that will be called for each template in the list
 module "create_template" {
   source    = "./modules/templates"
-  count = length(local.project_info_json.templates)
   module_project_name = local.project_info_json.project_name
-  module_template_name = local.project_info_json.templates[count.index]
   module_project_id = data.dnacenter_configuration_template_project.response.items.0.id
   module_github_repo_name = var.github_repo_name
+  for_each = local.project_info_json.templates
+    module_template_name = each.value
 }
 
 output "dnac_template_info" {
