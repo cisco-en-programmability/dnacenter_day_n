@@ -64,7 +64,7 @@
 
       - name: Append the device hostnames matching the filter
         set_fact:
-          device_hostname: "{{ device_hostname }} + ['{{ item.hostname }}']"
+          device_hostname: "{{ device_hostname + [item.hostname]}}"
         loop: "{{ device_inventory }}"
         when: item.{{ filter }} == "{{ filter_value }}"
 
