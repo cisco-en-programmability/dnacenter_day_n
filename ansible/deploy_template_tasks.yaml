@@ -21,7 +21,7 @@
 
 - name: Device deployment status update - device not managed
   set_fact:
-    device_deployment_status: "{{ device_deployment_status }} + [{'{{ device_name }}' : 'not managed'}]"
+    device_deployment_status: "{{ device_deployment_status + [ device_name : 'not managed' ] }}"
   when: device_info.dnac_response.response == []
 
 - name: Device not managed
@@ -37,7 +37,7 @@
 - block:
   - name: Device deployment status update - device not reachable
     set_fact:
-      device_deployment_status: "{{ device_deployment_status }} + [{'{{ device_name }}' : 'not reachable'}]"
+      device_deployment_status: "{{ device_deployment_status + [ { device_name  : 'not reachable'} ] }}"
     when: device_info.dnac_response.response.0.reachabilityStatus == "Unreachable"
 
   - name: Device not reachable
@@ -95,7 +95,7 @@
 
   - name: Update deployment successful status
     set_fact:
-      device_deployment_status: "{{ device_deployment_status }} + [{'{{ device_name }}' : 'Template deployment successful'}]"
+      device_deployment_status: "{{ device_deployment_status + [ { device_name  : 'Template deployment successful'} ] }}"
     when:
       - deployment_task_result == False
 
@@ -107,7 +107,7 @@
 
   - name: Update deployment failed status
     set_fact:
-      device_deployment_status: "{{ device_deployment_status }} + [{'{{ device_name }}' : 'Template deployment failed'}]"
+      device_deployment_status: "{{ device_deployment_status + [ { device_name : 'Template deployment failed' } ] }}"
     when:
       - deployment_task_result == True
 
