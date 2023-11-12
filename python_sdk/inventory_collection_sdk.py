@@ -50,7 +50,6 @@ time.tzset()  # adjust the timezone, more info https://help.pythonanywhere.com/p
 
 DNAC_AUTH = HTTPBasicAuth(DNAC_USER, DNAC_PASS)
 
-
 def time_sleep(time_sec):
     """
     This function will wait for the specified time_sec, while printing a progress bar, one '!' / second
@@ -198,13 +197,20 @@ def main():
     files_list = os.listdir('../inventory')
 
     # authenticate to github
-    g = Github(GITHUB_USERNAME, GITHUB_TOKEN)
+    try:
+        g = Github(GITHUB_USERNAME, GITHUB_TOKEN)
+    except:
+        logging.error('Unable to authenticate with GitHub, please check access token.')
+        exit()
 
     # searching for my repository
-    repo = g.search_repositories(GITHUB_REPO)[0]
+    try:
+        repo = g.search_repositories(GITHUB_REPO)[0]
+    except:
+        logging.error('Unable to locate a GitHub repositry with name "' + GITHUB_REPO + '".')
+        exit()
 
     # update inventory files
-
     for filename in files_list:
         try:
             contents = repo.get_contents(filename)
